@@ -10,7 +10,7 @@ namespace Business.Abstract
     {
         List<Brand> GetAll();
         Brand GetById(int carId);
-        Brand GetByName(string colorName);
+        Brand GetByName(string brandName);
         void Add(Brand brand);
         void Update(Brand brand);
         void Delete(Brand brand);
