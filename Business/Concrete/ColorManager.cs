@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Business.Abstract;
+using Business.Constrants;
+using Core.Utilities.Results.Abstract;
+using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 
@@ -16,51 +19,47 @@ namespace Business.Concrete
             _colorDal = colorDal;
         }
 
-        public void Add(Color color)
+        public IResult Add(Color color)
         {
             if (color.Name.Length >= 3)
             {
                 _colorDal.Add(color);
-                Console.WriteLine("{0} rengi başarılı bir şekilde eklenmiştir.");
+                return new SuccessResult(Messages.ColorAdded);
             }
-            else
-            {
-                Console.WriteLine("Hata. Renk en az 3 karakter olmalıdır.");
-            }
+
+            return new ErrorResult(Messages.ColorNameInvalid);
         }
 
-        public void Delete(Color color)
+        public IResult Delete(Color color)
         {
             _colorDal.Delete(color);
-            Console.WriteLine("{0} rengi başarılı bir şekilde silinmiştir.");
+            return new SuccessResult(Messages.ColorDeleted);
         }
 
-        public List<Color> GetAll()
+        public IDataResult<List<Color>> GetAll()
         {
-            return _colorDal.GetAll();
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll());
         }
 
-        public Color GetById(int colorId)
+        public IDataResult<Color> GetById(int colorId)
         {
-            return _colorDal.Get(c => c.ColorId == colorId);
+            return new SuccessDataResult<Color>(_colorDal.Get(c => c.ColorId == colorId));
         }
 
-        public Color GetByName(string colorName)
+        public IDataResult<Color> GetByName(string colorName)
         {
-            return _colorDal.Get(c => c.Name == colorName);
+            return new SuccessDataResult<Color>(_colorDal.Get(c => c.Name == colorName));
         }
 
-        public void Update(Color color)
+        public IResult Update(Color color)
         {
             if (color.Name.Length >= 3)
             {
                 _colorDal.Update(color);
-                Console.WriteLine("{0} rengi başarılı bir şekilde güncellenmiştir.");
+                return new SuccessResult(Messages.ColorUpdated);
             }
-            else
-            {
-                Console.WriteLine("Hata. Renk en az 3 karakter olmalıdır.");
-            }
+
+            return new ErrorResult(Messages.ColorNameInvalid);
         }
     }
 }
