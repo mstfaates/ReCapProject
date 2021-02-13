@@ -7,7 +7,7 @@ using Entities.Concrete;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfColorDal : EfEntityRepositoryBase<Color, ReCapProjectDBContext>, IColorDal
+    public class EfColorDal : EfEntityRepositoryBase<Color, ReCapProjectDbContext>, IColorDal
     {
     }
 }

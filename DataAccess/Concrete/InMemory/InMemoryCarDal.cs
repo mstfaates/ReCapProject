@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 
 namespace DataAccess.Concrete.InMemory
 {
@@ -52,6 +53,11 @@ namespace DataAccess.Concrete.InMemory
         public List<Car> GetById(int id)
         {
             return _cars.Where(x => x.CarId == id).ToList();
+        }
+
+        public List<CarDetailDto> GetCarDetails()
+        {
+            throw new NotImplementedException();
         }
 
         public void Update(Car car)
