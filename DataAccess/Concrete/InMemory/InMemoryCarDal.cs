@@ -17,11 +17,11 @@ namespace DataAccess.Concrete.InMemory
         {
             _cars = new List<Car>
             {
-                new Car{CarId = 1, BrandId = 1, ColorId = 1, DailyPrice = 50000, ModelYear = 2003, Description = "It's a nice car"},
-                new Car{CarId = 2, BrandId = 2, ColorId = 1, DailyPrice = 60000, ModelYear = 2004, Description = "It's a nice car"},
-                new Car{CarId = 3, BrandId = 3, ColorId = 2, DailyPrice = 70000, ModelYear = 2005, Description = "It's a nice car"},
-                new Car{CarId = 4, BrandId = 4, ColorId = 2, DailyPrice = 80000, ModelYear = 2006, Description = "It's a nice car"},
-                new Car{CarId = 5, BrandId = 5, ColorId = 3, DailyPrice = 90000, ModelYear = 2007, Description = "It's a nice car"},
+                new Car{CarId = 1, BrandId = 1, ColorId = 1, DailyPrice = 50000, ModelYear = 2003, Model = "Supra", Description = "It's a nice car"},
+                new Car{CarId = 2, BrandId = 2, ColorId = 1, DailyPrice = 60000, ModelYear = 2004, Model = "Tucson", Description = "It's a nice car"},
+                new Car{CarId = 3, BrandId = 3, ColorId = 2, DailyPrice = 70000, ModelYear = 2005, Model = "X5", Description = "It's a nice car"},
+                new Car{CarId = 4, BrandId = 4, ColorId = 2, DailyPrice = 80000, ModelYear = 2006, Model = "Kuga", Description = "It's a nice car"},
+                new Car{CarId = 5, BrandId = 5, ColorId = 3, DailyPrice = 90000, ModelYear = 2007, Model = "Micra", Description = "It's a nice car"},
             };
         }
         public void Add(Car car)
@@ -68,6 +68,7 @@ namespace DataAccess.Concrete.InMemory
             toBeUpdated.DailyPrice = car.DailyPrice;
             toBeUpdated.ModelYear = car.ModelYear;
             toBeUpdated.Description = car.Description;
+            toBeUpdated.Model = car.Model;
         }
     }
 }
