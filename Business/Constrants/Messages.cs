@@ -28,6 +28,10 @@ namespace Business.Constrants
         public static string CustomerDeleted = "Müşteri silindi";
         public static string CustomerUpdated = "Müşteri güncellendi";
 
+        public static string RentalAdded = "Kiralama Eklendi";
+        public static string RentalDeleted = "Kiralama silindi";
+        public static string RentalUpdated = "Kiralama güncellendi";
+
         public static string UserAdded = "Kullanıcı Eklendi";
         public static string UserNameInvalid = "Kullanıcı adı 2 den büyük olmalıdır.";
         public static string UserDeleted = "Kullanıcı silindi";

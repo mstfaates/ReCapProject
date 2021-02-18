@@ -21,6 +21,10 @@ namespace Business.Concrete
 
         public IResult Add(User user)
         {
+            if (user.FirstName.Length < 2)
+            {
+                return new ErrorResult(Messages.UserNameInvalid);
+            }
             _ıUserDal.Add(user);
             return new SuccessResult(Messages.UserAdded);
         }
