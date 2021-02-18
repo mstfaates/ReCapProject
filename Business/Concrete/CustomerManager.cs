@@ -14,7 +14,7 @@ namespace Business.Concrete
 {
     public class CustomerManager : ICustomerService
     {
-        private ICustomerDal _customerDal;
+        ICustomerDal _customerDal;
 
         public CustomerManager(ICustomerDal customerDal)
         {
@@ -23,9 +23,9 @@ namespace Business.Concrete
 
         public IResult Add(Customer customer)
         {
-            if (customer.CompanyName.Length < 3)
+            if (customer.CompanyName.Length < 2)
             {
-                new ErrorResult(Messages.CustomerNameInvalid);
+                return new ErrorResult(Messages.CustomerNameInvalid);
             }
             _customerDal.Add(customer);
             return new SuccessResult(Messages.CustomerAdded);
@@ -39,32 +39,38 @@ namespace Business.Concrete
 
         public IDataResult<List<Customer>> GetAll()
         {
-            throw new NotImplementedException();
+            if (DateTime.Now.Hour == 23)
+            {
+                return new ErrorDataResult<List<Customer>>(Messages.MaintenanceTime);
+            }
+
+            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll());
         }
 
         public IDataResult<Customer> GetByCustomerName(string name)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.CompanyName == name));
         }
 
         public IDataResult<Customer> GetById(int id)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.CustomerId == id));
         }
 
         public IDataResult<Customer> GetByUserId(int id)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.UserId == id));
         }
 
         public IDataResult<List<CustomerDetailDto>> GetCustomerDetails()
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.getCustomerDetail());
         }
 
         public IResult Update(Customer customer)
         {
-            throw new NotImplementedException();
+            _customerDal.Update(customer);
+            return new SuccessResult(Messages.CustomerUpdated);
         }
     }
 }

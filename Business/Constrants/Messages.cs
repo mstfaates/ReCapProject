@@ -22,5 +22,15 @@ namespace Business.Constrants
         public static string ColorNameInvalid = "Renk adı 2 den büyük olmalıdır.";
         public static string ColorDeleted = "Renk silindi";
         public static string ColorUpdated = "Renk güncellendi";
+
+        public static string CustomerAdded = "Müşteri Eklendi";
+        public static string CustomerNameInvalid = "Müşteri adı 2 den büyük olmalıdır.";
+        public static string CustomerDeleted = "Müşteri silindi";
+        public static string CustomerUpdated = "Müşteri güncellendi";
+
+        public static string UserAdded = "Kullanıcı Eklendi";
+        public static string UserNameInvalid = "Kullanıcı adı 2 den büyük olmalıdır.";
+        public static string UserDeleted = "Kullanıcı silindi";
+        public static string UserUpdated = "Kullanıcı güncellendi";
     }
 }
