@@ -5,6 +5,7 @@ using Business.Abstract;
 using Business.Constrants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
@@ -23,9 +24,11 @@ namespace Business.Concrete
         [ValidationAspect(typeof(UserValidator))]
         public IResult Add(User user)
         {
-            if (user.FirstName.Length < 2)
+            IResult result = BusinessRules.Run(CheckIfUserNameIsProper(user.FirstName, user.LastName));
+
+            if (result != null)
             {
-                return new ErrorResult(Messages.UserNameInvalid);
+                return result;
             }
             _userDal.Add(user);
             return new SuccessResult(Messages.UserAdded);
@@ -54,8 +57,24 @@ namespace Business.Concrete
         [ValidationAspect(typeof(UserValidator))]
         public IResult Update(User user)
         {
+            IResult result = BusinessRules.Run(CheckIfUserNameIsProper(user.FirstName, user.LastName));
+
+            if (result != null)
+            {
+                return result;
+            }
             _userDal.Update(user);
             return new SuccessResult(Messages.UserUpdated);
+        }
+
+        private IResult CheckIfUserNameIsProper(string firstName, string lastName)
+        {
+            if (firstName.Length > 2 && lastName.Length > 2)
+            {
+                return new SuccessResult();
+            }
+
+            return new ErrorResult(Messages.UserNameInvalid);
         }
     }
 }

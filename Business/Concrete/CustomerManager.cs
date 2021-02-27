@@ -6,6 +6,7 @@ using Business.Constrants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.DataAccess;
+using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
@@ -25,9 +26,11 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CustomerValidator))]
         public IResult Add(Customer customer)
         {
-            if (customer.CompanyName.Length < 2)
+            IResult result = BusinessRules.Run(CheckIfCompanyNameIsProper(customer.CompanyName));
+
+            if (result != null)
             {
-                return new ErrorResult(Messages.CustomerNameInvalid);
+                return result;
             }
             _customerDal.Add(customer);
             return new SuccessResult(Messages.CustomerAdded);
@@ -68,11 +71,28 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.getCustomerDetail());
         }
+
         [ValidationAspect(typeof(CustomerValidator))]
         public IResult Update(Customer customer)
         {
+            IResult result = BusinessRules.Run(CheckIfCompanyNameIsProper(customer.CompanyName));
+
+            if (result != null)
+            {
+                return result;
+            }
             _customerDal.Update(customer);
             return new SuccessResult(Messages.CustomerUpdated);
+        }
+
+        private IResult CheckIfCompanyNameIsProper(string companyName)
+        {
+            if (companyName.Length > 2)
+            {
+                return new SuccessResult();
+            }
+
+            return new ErrorResult(Messages.CustomerNameInvalid);
         }
     }
 }

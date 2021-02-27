@@ -6,6 +6,7 @@ using Business.Abstract;
 using Business.Constrants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
@@ -25,12 +26,14 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
-            if (car.Description.Length >= 2 && car.DailyPrice > 0)
+            IResult result = BusinessRules.Run(CheckIfCarDailyPriceIsOverO(car.DailyPrice), CheckIfCarNameIsProper(car.Model));
+
+            if (result != null)
             {
-                _carDal.Add(car);
-                return new SuccessResult(Messages.CarAdded);
+                return result;
             }
-            return new ErrorResult(Messages.CarNameDailyPriceInvalid);
+            _carDal.Add(car);
+            return new SuccessResult(Messages.CarAdded);
         }
 
         public IResult Delete(Car car)
@@ -67,15 +70,48 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(x => x.ColorId == colorId));
         }
+
         [ValidationAspect(typeof(CarValidator))]
         public IResult Update(Car car)
         {
-            if (car.Description.Length > 2 && car.DailyPrice > 0)
+            IResult result = BusinessRules.Run(CheckIfCarDailyPriceIsOverO(car.DailyPrice), CheckIfCarNameIsProper(car.Model));
+
+            if (result != null)
             {
-                _carDal.Update(car);
-                return new SuccessResult(Messages.CarUpdated);
+                return result;
             }
-            return new ErrorResult(Messages.CarNameDailyPriceInvalid);
+            _carDal.Update(car);
+            return new SuccessResult(Messages.CarUpdated);
         }
+
+        private IResult CheckIfCarNameIsProper(string carName)
+        {
+            if (carName.Length >= 2)
+            {
+                return new SuccessResult();
+            }
+
+            return new ErrorResult(Messages.CarNameInvalid);
+        }
+
+        private IResult CheckIfCarDailyPriceIsOverO(double dailyPrice)
+        {
+            if (dailyPrice > 0)
+            {
+                return new SuccessResult();
+            }
+
+            return new ErrorResult(Messages.CarDailyPriceInvalid);
+        }
+
+        //private IResult CheckIfMaintenanceIsActive(int hour)
+        //{
+        //    if (hour != 23)
+        //    {
+        //        return new SuccessResult();
+        //    }
+
+        //    return new ErrorResult(Messages.MaintenanceTime);
+        //}
     }
 }

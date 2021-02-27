@@ -14,7 +14,8 @@ namespace Business.Constrants
         public static string MaintenanceTime = "Sistem bakım saati";
 
         public static string CarAdded = "Araba Eklendi";
-        public static string CarNameDailyPriceInvalid = "Araba adı 2 den büyük ve günlük fiyat değeri 0'dan büyük olmalıdır.";
+        public static string CarDailyPriceInvalid = " Günlük fiyat değeri 0'dan büyük olmalıdır";
+        public static string CarNameInvalid = "Araba adı 2 karakterden fazla olmalıdır";
         public static string CarDeleted = "Araba silindi";
         public static string CarUpdated = "Araba güncellendi";
 
@@ -36,5 +37,6 @@ namespace Business.Constrants
         public static string UserNameInvalid = "Kullanıcı adı 2 den büyük olmalıdır.";
         public static string UserDeleted = "Kullanıcı silindi";
         public static string UserUpdated = "Kullanıcı güncellendi";
+
     }
 }

@@ -5,6 +5,7 @@ using Business.Abstract;
 using Business.Constrants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
@@ -20,16 +21,18 @@ namespace Business.Concrete
         {
             _colorDal = colorDal;
         }
+
         [ValidationAspect(typeof(ColorValidator))]
         public IResult Add(Color color)
         {
-            if (color.Name.Length >= 3)
-            {
-                _colorDal.Add(color);
-                return new SuccessResult(Messages.ColorAdded);
-            }
+            IResult result = BusinessRules.Run(CheckIfColorNameIsProper(color.Name));
 
-            return new ErrorResult(Messages.ColorNameInvalid);
+            if (result != null)
+            {
+                return result;
+            }
+            _colorDal.Add(color);
+            return new SuccessResult(Messages.ColorAdded);
         }
 
         public IResult Delete(Color color)
@@ -55,10 +58,21 @@ namespace Business.Concrete
         [ValidationAspect(typeof(ColorValidator))]
         public IResult Update(Color color)
         {
-            if (color.Name.Length >= 3)
+            IResult result = BusinessRules.Run(CheckIfColorNameIsProper(color.Name));
+
+            if (result != null)
             {
-                _colorDal.Update(color);
-                return new SuccessResult(Messages.ColorUpdated);
+                return result;
+            }
+            _colorDal.Update(color);
+            return new SuccessResult(Messages.ColorUpdated);
+        }
+
+        private IResult CheckIfColorNameIsProper(string colorName)
+        {
+            if (colorName.Length > 2)
+            {
+                return new SuccessResult();
             }
 
             return new ErrorResult(Messages.ColorNameInvalid);
