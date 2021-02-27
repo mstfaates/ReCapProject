@@ -6,9 +6,9 @@ using FluentValidation;
 
 namespace Business.ValidationRules.FluentValidation
 {
-    public class RentalManager : AbstractValidator<Rental>
+    public class RentalValidator : AbstractValidator<Rental>
     {
-        public RentalManager()
+        public RentalValidator()
         {
             RuleFor(r => r.RentDate).NotEmpty();
             //RuleFor(r => r.ReturnDate).Must(ReturnDateComparison).WithMessage("Geri teslimat tarihi kiralama tarihinden önce olamaz");

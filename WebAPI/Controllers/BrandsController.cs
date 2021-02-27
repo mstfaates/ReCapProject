@@ -44,7 +44,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyname")]
-        public IActionResult GetByBane(string name)
+        public IActionResult GetByName(string name)
         {
             var result = _brandService.GetByName(name);
             if (result.Success)
