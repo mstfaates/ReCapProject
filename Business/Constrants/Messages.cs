@@ -38,5 +38,9 @@ namespace Business.Constrants
         public static string UserDeleted = "Kullanıcı silindi";
         public static string UserUpdated = "Kullanıcı güncellendi";
 
+        public static string CarImageAdded = "Resim Eklendi";
+        public static string CarImageDeleted = "Resim Silindi";
+        public static string CarImageUpdated = "Resim Güncellendi";
+        public static string CarImageOverLimit = "Maximum resim limiti aşıldı";
     }
 }

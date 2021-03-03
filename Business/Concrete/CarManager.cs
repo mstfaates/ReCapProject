@@ -26,12 +26,6 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
-            IResult result = BusinessRules.Run(CheckIfCarDailyPriceIsOverO(car.DailyPrice), CheckIfCarNameIsProper(car.Model));
-
-            if (result != null)
-            {
-                return result;
-            }
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
         }
@@ -74,44 +68,8 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarValidator))]
         public IResult Update(Car car)
         {
-            IResult result = BusinessRules.Run(CheckIfCarDailyPriceIsOverO(car.DailyPrice), CheckIfCarNameIsProper(car.Model));
-
-            if (result != null)
-            {
-                return result;
-            }
             _carDal.Update(car);
             return new SuccessResult(Messages.CarUpdated);
         }
-
-        private IResult CheckIfCarNameIsProper(string carName)
-        {
-            if (carName.Length >= 2)
-            {
-                return new SuccessResult();
-            }
-
-            return new ErrorResult(Messages.CarNameInvalid);
-        }
-
-        private IResult CheckIfCarDailyPriceIsOverO(double dailyPrice)
-        {
-            if (dailyPrice > 0)
-            {
-                return new SuccessResult();
-            }
-
-            return new ErrorResult(Messages.CarDailyPriceInvalid);
-        }
-
-        //private IResult CheckIfMaintenanceIsActive(int hour)
-        //{
-        //    if (hour != 23)
-        //    {
-        //        return new SuccessResult();
-        //    }
-
-        //    return new ErrorResult(Messages.MaintenanceTime);
-        //}
     }
 }

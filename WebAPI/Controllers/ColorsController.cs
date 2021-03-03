@@ -45,7 +45,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyname")]
-        public IActionResult GetByBane(string name)
+        public IActionResult GetByName(string name)
         {
             var result = _colorService.GetByName(name);
             if (result.Success)
