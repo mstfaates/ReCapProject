@@ -44,7 +44,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Customer>> GetAll()
         {
-            if (DateTime.Now.Hour == 23)
+            if (DateTime.Now.Hour == 20)
             {
                 return new ErrorDataResult<List<Customer>>(Messages.MaintenanceTime);
             }
@@ -55,6 +55,12 @@ namespace Business.Concrete
         public IDataResult<Customer> GetByCustomerName(string name)
         {
             return new SuccessDataResult<Customer>(_customerDal.Get(c => c.CompanyName == name));
+        }
+
+        public IDataResult<CustomerDetailDto> GetByEmail(string email)
+        {
+            var getByEmail = _customerDal.GetByEmail(user => user.Email == email);
+            return new SuccessDataResult<CustomerDetailDto>(getByEmail);
         }
 
         public IDataResult<Customer> GetById(int id)
@@ -69,7 +75,7 @@ namespace Business.Concrete
 
         public IDataResult<List<CustomerDetailDto>> GetCustomerDetails()
         {
-            return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.getCustomerDetail());
+            return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetails());
         }
 
         [ValidationAspect(typeof(CustomerValidator))]

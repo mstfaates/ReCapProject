@@ -52,5 +52,10 @@ namespace Business.Constrants
         public static string SuccessfulLogin = "Başarılı giriş";
         public static string UserAlreadyExists = "Kullanıcı mevcut";
         public static string AccessTokenCreated = "Token oluşturuldu";
+        internal static string CustomerFindexPointIsZero;
+        internal static string CustomerScoreInvalid;
+        internal static string Added;
+        internal static string Deleted;
+        internal static string Updated;
     }
 }

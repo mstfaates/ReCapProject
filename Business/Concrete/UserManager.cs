@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Business.Abstract;
 using Business.Constrants;
@@ -16,27 +17,56 @@ namespace Business.Concrete
 {
     public class UserManager : IUserService
     {
-        IUserDal _userDal;
+        IUserDal _userdal;
 
-        public UserManager(IUserDal userDal)
+        public UserManager(IUserDal userdal)
         {
-            _userDal = userDal;
+            _userdal = userdal;
+        }
+
+        [ValidationAspect(typeof(UserValidator))]
+        public IResult Add(User user)
+        {
+            _userdal.Add(user);
+            return new SuccessResult(Messages.Added);
+        }
+
+        public IResult Delete(User user)
+        {
+            _userdal.Delete(user);
+            return new SuccessResult(Messages.Deleted);
+        }
+
+        public IDataResult<List<User>> GetAll()
+        {
+            return new SuccessDataResult<List<User>>(_userdal.GetAll());
+        }
+
+        public IDataResult<User> GetById(int id)
+        {
+            return new SuccessDataResult<User>(_userdal.Get(u => u.Id == id));
+        }
+
+        public User GetByMail(string mail)
+        {
+            return (_userdal.Get(u => u.Email == mail));
         }
 
         public List<OperationClaim> GetClaims(User user)
         {
-            return _userDal.GetClaims(user);
+            return (_userdal.GetClaims(user));
         }
 
-        public void Add(User user)
+        public IDataResult<User> GetLastUser()
         {
-            _userDal.Add(user);
+            var lastUser = _userdal.GetAll().LastOrDefault();
+            return new SuccessDataResult<User>(lastUser);
         }
 
-        public User GetByMail(string email)
+        public IResult Update(User user)
         {
-            return _userDal.Get(u => u.Email == email);
+            _userdal.Update(user);
+            return new SuccessResult(Messages.Updated);
         }
-
     }
 }

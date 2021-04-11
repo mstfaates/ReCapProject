@@ -130,7 +130,14 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        public IDataResult<List<CarImage>> GetByImageId(int id)
+        {
+            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(ı => ı.Id == id).ToList());
+        }
 
-
+        public IDataResult<CarImage> Get(int id)
+        {
+            return new SuccessDataResult<CarImage>(_carImageDal.Get(ı => ı.Id == id));
+        }
     }
 }

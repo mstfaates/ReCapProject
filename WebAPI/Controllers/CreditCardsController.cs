@@ -11,84 +11,84 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandsController : ControllerBase
+    public class CreditCardsController : ControllerBase
     {
-        private IBrandService _brandService;
+        ICreditCardService _creditCardService;
 
-        public BrandsController(IBrandService brandService)
+        public CreditCardsController(ICreditCardService creditCardService)
         {
-            _brandService = brandService;
+            _creditCardService = creditCardService;
         }
+
+
+        [HttpPost("add")]
+        public IActionResult Add(CreditCard creditCard)
+        {
+            var result = _creditCardService.Add(creditCard);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+
+        [HttpPost("delete")]
+        public IActionResult Delete(CreditCard creditCard)
+        {
+            var result = _creditCardService.Delete(creditCard);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPut("update")]
+        public IActionResult Update(CreditCard creditCard)
+        {
+            var result = _creditCardService.Update(creditCard);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _brandService.GetAll();
+            var result = _creditCardService.GetAll();
             if (result.Success)
             {
                 return Ok(result);
             }
-
             return BadRequest(result);
         }
 
-        [HttpGet("getcarsbybrandid")]
-        public IActionResult GetById(int id)
+        [HttpGet("getbycardnumber")]
+        public IActionResult GetByCardNumber(string cardNumber)
         {
-            var result = _brandService.GetCarsByBrandId(id);
+            var result = _creditCardService.GetByCardNumber(cardNumber);
             if (result.Success)
             {
                 return Ok(result);
             }
-
             return BadRequest(result);
         }
 
-        [HttpGet("getbyname")]
-        public IActionResult GetByName(string name)
+        [HttpGet("getcardsbycustomerid")]
+        public IActionResult GetCardsByCustomerId(int customerId)
         {
-            var result = _brandService.GetByName(name);
+            var result = _creditCardService.GetCardsByCustomerId(customerId);
+
             if (result.Success)
             {
                 return Ok(result);
             }
-
             return BadRequest(result);
         }
 
-        [HttpGet("add")]
-        public IActionResult Add(Brand brand)
-        {
-            var result = _brandService.Add(brand);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
-        }
-
-        [HttpGet("update")]
-        public IActionResult Update(Brand brand)
-        {
-            var result = _brandService.Update(brand);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
-        }
-
-        [HttpGet("delete")]
-        public IActionResult Delete(Brand brand)
-        {
-            var result = _brandService.Delete(brand);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
-        }
     }
 }
+
